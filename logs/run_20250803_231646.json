@@ -1,0 +1,181 @@
+{
+  "run_id": "run_20250803_231646",
+  "start_time": "2025-08-03T23:16:46.785180",
+  "workflow": "fetch_and_place",
+  "steps": [
+    {
+      "timestamp": "2025-08-03T23:16:46.975656",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.065718",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.154716",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.247257",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.337612",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.424872",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.515166",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.606206",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.695263",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.791077",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.883840",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:47.971255",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:48.060284",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:54.563250",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:54.644084",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:54.729608",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:54.815520",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:54.898055",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:54.979164",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.061786",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.146841",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.230951",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.316934",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.399314",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.481294",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.562376",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:16:55.641582",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T23:17:02.178572",
+      "skill": "Sequence",
+      "status": "SUCCESS",
+      "duration": 0.0
+    }
+  ],
+  "total_duration": 15.393458127975464,
+  "failures": 0,
+  "recovery_steps": 0,
+  "teleop_interventions": 0,
+  "final_status": "SUCCESS",
+  "end_time": "2025-08-03T23:17:02.178687"
+}

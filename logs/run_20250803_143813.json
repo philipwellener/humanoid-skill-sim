@@ -1,0 +1,31 @@
+{
+  "run_id": "run_20250803_143813",
+  "start_time": "2025-08-03T14:38:13.979779",
+  "workflow": "fetch_and_place",
+  "steps": [
+    {
+      "timestamp": "2025-08-03T14:38:14.079514",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T14:38:14.167922",
+      "skill": "Sequence",
+      "status": "RUNNING",
+      "duration": 0.0
+    },
+    {
+      "timestamp": "2025-08-03T14:38:14.252460",
+      "skill": "Sequence",
+      "status": "FAILURE",
+      "duration": 0.0
+    }
+  ],
+  "total_duration": 0.27263617515563965,
+  "failures": 1,
+  "recovery_steps": 0,
+  "teleop_interventions": 0,
+  "final_status": "FAILURE",
+  "end_time": "2025-08-03T14:38:14.252494"
+}

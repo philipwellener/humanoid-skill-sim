@@ -1,0 +1,14 @@
+# Core dependencies for Humanoid Skill Simulator
+pybullet>=3.2.0
+numpy>=1.21.0
+pyyaml>=6.0
+matplotlib>=3.5.0
+
+# Optional dependencies for enhanced functionality
+# jupyter>=1.0.0  # For notebook-based analysis
+# pytest>=7.0.0   # For testing
+# black>=22.0.0   # For code formatting
+# flake8>=4.0.0   # For code linting
+
+# Development dependencies
+# ipython>=8.0.0  # For interactive development

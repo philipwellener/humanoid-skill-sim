@@ -1,0 +1,132 @@
+{
+  "report_generated": "2025-08-02T18:29:39.209342",
+  "project_name": "Humanoid Skill Simulator",
+  "version": "1.0.0",
+  "test_results": {
+    "dependencies": {
+      "status": "PASSED",
+      "details": "\u2705 PASSED - All dependencies available"
+    },
+    "modules": {
+      "passed": 8,
+      "total": 8,
+      "success_rate": 100.0,
+      "details": [
+        {
+          "module": "behavior_tree.node",
+          "status": "PASSED"
+        },
+        {
+          "module": "behavior_tree.sequence",
+          "status": "PASSED"
+        },
+        {
+          "module": "behavior_tree.fallback",
+          "status": "PASSED"
+        },
+        {
+          "module": "sim.world",
+          "status": "PASSED"
+        },
+        {
+          "module": "sim.robot",
+          "status": "PASSED"
+        },
+        {
+          "module": "skills.walk",
+          "status": "PASSED"
+        },
+        {
+          "module": "skills.pick",
+          "status": "PASSED"
+        },
+        {
+          "module": "skills.place",
+          "status": "PASSED"
+        }
+      ]
+    },
+    "configuration": {
+      "details": [
+        {
+          "file": "configs/workflows.yaml",
+          "status": "PASSED"
+        },
+        {
+          "file": "README.md",
+          "status": "PASSED"
+        },
+        {
+          "file": "requirements.txt",
+          "status": "PASSED"
+        },
+        {
+          "file": "workflow_configs",
+          "status": "PASSED",
+          "count": 6
+        }
+      ]
+    },
+    "simulation": {
+      "details": [
+        {
+          "test": "world_creation",
+          "status": "PASSED"
+        },
+        {
+          "test": "world_initialization",
+          "status": "PARTIAL"
+        },
+        {
+          "test": "robot_creation",
+          "status": "PASSED"
+        },
+        {
+          "test": "robot_loading",
+          "status": "EXPECTED_FAIL"
+        }
+      ]
+    },
+    "behavior_tree": {
+      "details": [
+        {
+          "test": "sequence_creation",
+          "status": "PASSED"
+        },
+        {
+          "test": "fallback_creation",
+          "status": "PASSED"
+        },
+        {
+          "test": "node_status",
+          "status": "PASSED"
+        }
+      ]
+    },
+    "skills": {
+      "details": [
+        {
+          "test": "walk_skill_creation",
+          "status": "PASSED"
+        },
+        {
+          "test": "pick_skill_creation",
+          "status": "PASSED"
+        },
+        {
+          "test": "place_skill_creation",
+          "status": "PASSED"
+        }
+      ]
+    },
+    "end_to_end": {
+      "status": "PASSED"
+    },
+    "overall": {
+      "sections_passed": 5,
+      "total_sections": 6,
+      "success_rate": 83.33333333333334
+    },
+    "recommendation": "FUNCTIONAL"
+  }
+}

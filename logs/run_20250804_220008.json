@@ -1,0 +1,12 @@
+{
+  "run_id": "run_20250804_220008",
+  "start_time": "2025-08-04T22:00:08.520053",
+  "workflow": "fetch-and-place",
+  "steps": [],
+  "total_duration": 0.04140305519104004,
+  "failures": 0,
+  "recovery_steps": 0,
+  "teleop_interventions": 0,
+  "final_status": "ERROR",
+  "end_time": "2025-08-04T22:00:08.565164"
+}

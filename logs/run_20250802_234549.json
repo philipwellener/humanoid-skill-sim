@@ -1,0 +1,12 @@
+{
+  "run_id": "run_20250802_234549",
+  "start_time": "2025-08-02T23:45:49.493400",
+  "workflow": "robust_fetch",
+  "steps": [],
+  "total_duration": 0.019489049911499023,
+  "failures": 0,
+  "recovery_steps": 0,
+  "teleop_interventions": 0,
+  "final_status": "ERROR",
+  "end_time": "2025-08-02T23:45:49.512901"
+}

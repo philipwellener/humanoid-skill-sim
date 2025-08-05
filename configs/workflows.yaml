@@ -1,0 +1,478 @@
+# Workflow configurations for humanoid skill simulation
+
+# Simple walk workflow for basic testing
+simple_walk:
+  name: "simple-walk"
+  description: "Simple walking test to validate basic movement"
+  root: "Sequence"
+  nodes:
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.0, 0.0, 0.0]
+        tolerance: 0.3
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.0, 1.0, 0.0]
+        tolerance: 0.3
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 0.0, 0.0]
+        tolerance: 0.3
+
+# Basic fetch and place workflow
+fetch_and_place:
+  name: "fetch-and-place"
+  description: "Pick up object and place it at target location"
+  root: "Sequence"
+  nodes:
+    - type: "PickObject"
+      parameters:
+        object_id: "box_01"
+    - type: "PlaceObject"
+      parameters:
+        location: [3.0, 1.0, 0.1]
+
+# Multi-object delivery workflow
+delivery_workflow:
+  name: "delivery"
+  description: "Deliver multiple objects to different locations"
+  root: "Sequence"
+  nodes:
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.5, 0.8, 0.0]
+        tolerance: 0.2
+    - type: "PickObject"
+      parameters:
+        object_id: "box_01"
+    - type: "WalkToTarget"
+      parameters:
+        target: [3.0, 0.5, 0.0]
+        tolerance: 0.2
+    - type: "PlaceObject"
+      parameters:
+        location: [3.0, 0.5, 0.1]
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.2, 1.5, 0.0]
+        tolerance: 0.2
+    - type: "PickObject"
+      parameters:
+        object_id: "box_03"
+    - type: "WalkToTarget"
+      parameters:
+        target: [3.0, 1.5, 0.0]
+        tolerance: 0.2
+    - type: "PlaceObject"
+      parameters:
+        location: [3.0, 1.5, 0.1]
+
+# Patrol workflow
+patrol_workflow:
+  name: "patrol"
+  description: "Patrol multiple waypoints with inspection pauses"
+  root: "Sequence"
+  nodes:
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.0, 0.0, 0.0]
+        tolerance: 0.3
+    - type: "WaitForHuman"
+      parameters:
+        duration: 2.0
+    - type: "WalkToTarget"
+      parameters:
+        target: [2.0, 1.0, 0.0]
+        tolerance: 0.3
+    - type: "WaitForHuman"
+      parameters:
+        duration: 2.0
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 2.0, 0.0]
+        tolerance: 0.3
+    - type: "WaitForHuman"
+      parameters:
+        duration: 2.0
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 0.0, 0.0]
+        tolerance: 0.3
+
+# Robust workflow with fallback
+robust_fetch_with_fallback:
+  name: "robust-fetch"
+  description: "Fetch with fallback strategy"
+  root: "Fallback"
+  nodes:
+    # Primary strategy
+    - type: "Sequence"
+      nodes:
+        - type: "WalkToTarget"
+          parameters:
+            target: [1.5, 0.8, 0.0]
+            tolerance: 0.2
+        - type: "PickObject"
+          parameters:
+            object_id: "box_01"
+        - type: "WalkToTarget"
+          parameters:
+            target: [2.5, 1.0, 0.0]
+            tolerance: 0.2
+        - type: "PlaceObject"
+          parameters:
+            location: [2.5, 1.0, 0.1]
+    # Fallback strategy
+    - type: "Sequence"
+      nodes:
+        - type: "WalkToTarget"
+          parameters:
+            target: [2.0, 1.2, 0.0]
+            tolerance: 0.3
+        - type: "PickObject"
+          parameters:
+            object_id: "box_02"
+        - type: "WalkToTarget"
+          parameters:
+            target: [3.0, 1.5, 0.0]
+            tolerance: 0.3
+        - type: "PlaceObject"
+          parameters:
+            location: [3.0, 1.5, 0.1]
+
+# Testing workflow for skill validation
+test_all_skills:
+  name: "test-all-skills"
+  description: "Test all available skills sequentially"
+  root: "Sequence"
+  nodes:
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.0, 0.0, 0.0]
+        tolerance: 0.3
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 1.0, 0.0]
+        tolerance: 0.3
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.5, 0.8, 0.0]
+        tolerance: 0.3
+    - type: "PickObject"
+      parameters:
+        object_id: "box_01"
+    - type: "WalkToTarget"
+      parameters:
+        target: [2.0, 2.0, 0.0]
+        tolerance: 0.3
+    - type: "PlaceObject"
+      parameters:
+        location: [2.0, 2.0, 0.1]
+    - type: "WaitForHuman"
+      parameters:
+        duration: 1.0
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 0.0, 0.0]
+        tolerance: 0.3
+
+# Turning demonstration workflow
+turning_demo:
+  name: "turning-demo"
+  description: "Demonstrate robot turning capabilities for optimal manipulation"
+  root: "Sequence"
+  nodes:
+    # Demo 1: Turn before walking (natural humanoid movement)
+    - type: "TurnToFace"
+      parameters:
+        target: [2.0, 0.0, 0.0]
+    - type: "WalkToTarget"
+      parameters:
+        target: [2.0, 0.0, 0.0]
+        tolerance: 0.2
+        turn_first: false  # Already turned, so just walk
+    # Demo 2: Pick with turning (object faces robot for better manipulation)
+    - type: "PickObject"
+      parameters:
+        object_id: "box_01"
+    # Demo 3: Walk while turning to face direction (default behavior)
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 2.0, 0.0]
+        tolerance: 0.2
+        turn_first: true  # Turn to face direction before walking
+    # Demo 4: Place with turning (optimal gripper alignment)
+    - type: "PlaceObject"
+      parameters:
+        location: [0.0, 2.0, 0.1]
+    # Demo 5: Turn to specific angle
+    - type: "TurnToFace"
+      parameters:
+        angle: 0.0  # Face forward (0 radians)
+    - type: "WalkToTarget"
+      parameters:
+        target: [0.0, 0.0, 0.0]
+        tolerance: 0.3
+
+# Precise manipulation workflow (with turning for optimal gripper alignment)
+precise_manipulation:
+  name: "precise-manipulation"
+  description: "Precise pick and place with optimal robot orientation"
+  root: "Sequence"
+  nodes:
+    - type: "WalkToTarget"
+      parameters:
+        target: [1.0, 0.5, 0.0]
+        tolerance: 0.1
+        turn_first: true
+    - type: "TurnToFace"
+      parameters:
+        target: [1.5, 0.8, 0.0]  # Face the object before picking
+    - type: "PickObject"
+      parameters:
+        object_id: "box_01"
+    - type: "TurnToFace"
+      parameters:
+        target: [2.5, 1.2, 0.0]  # Face the target location
+    - type: "WalkToTarget"
+      parameters:
+        target: [2.0, 1.0, 0.0]
+        tolerance: 0.1
+        turn_first: false  # Already facing the right direction
+    - type: "PlaceObject"
+      parameters:
+        location: [2.5, 1.2, 0.1]
+
+# Complete fetch and place all 3 boxes into bin
+fetch_all_boxes:
+  name: "fetch-all-boxes"
+  description: "Fetch and place all 3 boxes from platforms into the bin with optimized routing"
+  root: "Sequence"
+  nodes:
+    # Phase 1: Fetch box_01 from platform_1 [1.5, 1.0] and place in bin
+    - type: "PickObject"
+      parameters:
+        object_id: "box_01"
+    - type: "PlaceObject"
+      parameters:
+        location: [3.0, 1.0, 0.1]
+    
+    # Phase 2: Fetch box_02 from platform_2 [2.0, 0.0] and place in bin
+    - type: "PickObject"
+      parameters:
+        object_id: "box_02"
+    - type: "PlaceObject"
+      parameters:
+        location: [3.0, 1.0, 0.1]
+    
+    # Phase 3: Fetch box_03 from platform_3 [1.5, -1.0] and place in bin
+    - type: "PickObject"
+      parameters:
+        object_id: "box_03"
+    - type: "PlaceObject"
+      parameters:
+        location: [3.0, 1.0, 0.1]
+
+# Complete fetch and place all 3 boxes with robust error handling
+fetch_all_boxes_robust:
+  name: "fetch-all-boxes-robust"
+  description: "Robustly fetch and place all 3 boxes with fallback strategies"
+  root: "Sequence"
+  nodes:
+    # Box 1: Start with closest box to bin (box_02 at platform_2)
+    - type: "Fallback"
+      nodes:
+        # Primary strategy for box_02
+        - type: "Sequence"
+          nodes:
+            - type: "PickObject"
+              parameters:
+                object_id: "box_02"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+        # Fallback: Try a different approach position
+        - type: "Sequence"
+          nodes:
+            - type: "WalkToTarget"
+              parameters:
+                target: [1.7, -0.3, 0.0]
+                tolerance: 0.2
+            - type: "PickObject"
+              parameters:
+                object_id: "box_02"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+    
+    # Box 2: Fetch box_01 from platform_1 
+    - type: "Fallback"
+      nodes:
+        # Primary strategy for box_01
+        - type: "Sequence"
+          nodes:
+            - type: "PickObject"
+              parameters:
+                object_id: "box_01"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+        # Fallback: Different approach angle
+        - type: "Sequence"
+          nodes:
+            - type: "WalkToTarget"
+              parameters:
+                target: [1.2, 0.7, 0.0]
+                tolerance: 0.2
+            - type: "PickObject"
+              parameters:
+                object_id: "box_01"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+    
+    # Box 3: Fetch box_03 from platform_3 (furthest from bin)
+    - type: "Fallback"
+      nodes:
+        # Primary strategy for box_03
+        - type: "Sequence"
+          nodes:
+            - type: "PickObject"
+              parameters:
+                object_id: "box_03"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+        # Fallback: Approach from different side
+        - type: "Sequence"
+          nodes:
+            - type: "WalkToTarget"
+              parameters:
+                target: [1.2, -1.3, 0.0]
+                tolerance: 0.2
+            - type: "PickObject"
+              parameters:
+                object_id: "box_03"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+
+# Distribute boxes to different bins - one box per bin
+distribute_boxes:
+  name: "distribute-boxes"
+  description: "Distribute each box to a different bin (box_01 -> bin_1, box_02 -> bin_2, box_03 -> bin_3)"
+  root: "Sequence"
+  nodes:
+    # Box 1: Fetch box_01 from platform_1 and place in bin_1
+    - type: "Sequence"
+      nodes:
+        - type: "PickObject"
+          parameters:
+            object_id: "box_01"
+        - type: "PlaceObject"
+          parameters:
+            location: [3.0, 1.0, 0.1]  # bin_1 location
+    
+    # Box 2: Fetch box_02 from platform_2 and place in bin_2  
+    - type: "Sequence"
+      nodes:
+        - type: "PickObject"
+          parameters:
+            object_id: "box_02"
+        - type: "PlaceObject"
+          parameters:
+            location: [3.0, 0.0, 0.1]  # bin_2 location (center)
+    
+    # Box 3: Fetch box_03 from platform_3 and place in bin_3
+    - type: "Sequence"
+      nodes:
+        - type: "PickObject"
+          parameters:
+            object_id: "box_03"
+        - type: "PlaceObject"
+          parameters:
+            location: [3.0, -1.0, 0.1]  # bin_3 location
+
+# Distribute boxes with fallback strategies - robust version
+distribute_boxes_robust:
+  name: "distribute-boxes-robust"
+  description: "Distribute each box to different bins with fallback positioning strategies"
+  root: "Sequence"
+  nodes:
+    # Box 1: Fetch box_01 from platform_1 and place in bin_1
+    - type: "Fallback"
+      nodes:
+        # Primary strategy for box_01 -> bin_1
+        - type: "Sequence"
+          nodes:
+            - type: "PickObject"
+              parameters:
+                object_id: "box_01"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+        # Fallback: Different approach angle for box_01
+        - type: "Sequence"
+          nodes:
+            - type: "WalkToTarget"
+              parameters:
+                target: [1.2, 0.7, 0.0]
+                tolerance: 0.2
+            - type: "PickObject"
+              parameters:
+                object_id: "box_01"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 1.0, 0.1]
+    
+    # Box 2: Fetch box_02 from platform_2 and place in bin_2
+    - type: "Fallback"
+      nodes:
+        # Primary strategy for box_02 -> bin_2
+        - type: "Sequence"
+          nodes:
+            - type: "PickObject"
+              parameters:
+                object_id: "box_02"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 0.0, 0.1]
+        # Fallback: Repositioning for box_02
+        - type: "Sequence"
+          nodes:
+            - type: "WalkToTarget"
+              parameters:
+                target: [1.7, -0.3, 0.0]
+                tolerance: 0.2
+            - type: "PickObject"
+              parameters:
+                object_id: "box_02"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, 0.0, 0.1]
+    
+    # Box 3: Fetch box_03 from platform_3 and place in bin_3
+    - type: "Fallback"
+      nodes:
+        # Primary strategy for box_03 -> bin_3
+        - type: "Sequence"
+          nodes:
+            - type: "PickObject"
+              parameters:
+                object_id: "box_03"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, -1.0, 0.1]
+        # Fallback: Approach from different side for box_03
+        - type: "Sequence"
+          nodes:
+            - type: "WalkToTarget"
+              parameters:
+                target: [1.2, -1.3, 0.0]
+                tolerance: 0.2
+            - type: "PickObject"
+              parameters:
+                object_id: "box_03"
+            - type: "PlaceObject"
+              parameters:
+                location: [3.0, -1.0, 0.1]

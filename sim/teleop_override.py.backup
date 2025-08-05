@@ -1,0 +1,296 @@
+"""
+Teleop override system for manual intervention    def is_active(self) -> bool:
+        """Check if override is currently active"""
+        return self.active_override
+    
+    def activate(self) -> None:
+        """Activate teleop override (alias for start_override)"""
+        self.start_override("activation")
+    
+    def deactivate(self) -> None:
+        """Deactivate teleop override (alias for end_override)"""
+        self.end_override()
+    
+    def set_movement_command(self, command: List[float]) -> Dict:
+        """Set movement command for teleop control"""
+        if not self.active_override:
+            return {"success": False, "error": "Teleop not active"}
+        
+        command_entry = {
+            "type": "movement_command",
+            "timestamp": time.time(),
+            "command": command
+        }
+        self.manual_commands.append(command_entry)
+        
+        return {"success": True, "command": command}
+        
+    def manual_move_robot(self, robot, target_position: List[float]) -> None:data collection
+"""
+
+import time
+from typing import Dict, List, Optional, Any, Callable
+import json
+
+
+class TeleopOverride:
+    """System for manual override and teleop data collection during simulation"""
+    
+    def __init__(self):
+        self.active_override = False
+        self.override_start_time = None
+        self.override_log: List[Dict] = []
+        self.manual_commands: List[Dict] = []
+        self.callbacks: Dict[str, Callable] = {}
+        
+    def start_override(self, reason: str = "manual_intervention") -> None:
+        """Start a teleop override session"""
+        self.active_override = True
+        self.override_start_time = time.time()
+        
+        override_entry = {
+            "type": "override_start",
+            "timestamp": self.override_start_time,
+            "reason": reason
+        }
+        self.override_log.append(override_entry)
+        print(f"Teleop override started: {reason}")
+        
+    def end_override(self) -> float:
+        """End the teleop override session and return duration"""
+        if not self.active_override:
+            return 0.0
+            
+        duration = time.time() - self.override_start_time
+        self.active_override = False
+        
+        override_entry = {
+            "type": "override_end", 
+            "timestamp": time.time(),
+            "duration": duration
+        }
+        self.override_log.append(override_entry)
+        print(f"Teleop override ended. Duration: {duration:.2f}s")
+        
+        return duration
+        
+    def is_active(self) -> bool:
+        """Check if teleop override is currently active"""
+        return self.active_override
+        
+    def manual_move_robot(self, robot, target_position: List[float]) -> None:
+        """Manually move robot to a position"""
+        if not self.active_override:
+            print("Cannot move robot: No active override")
+            return
+            
+        command = {
+            "type": "manual_move_robot",
+            "timestamp": time.time(),
+            "target_position": target_position,
+            "original_position": robot.get_position()
+        }
+        self.manual_commands.append(command)
+        
+        # Force robot to new position
+        robot.current_position = target_position.copy()
+        if robot.robot_id is not None:
+            import pybullet as p
+            _, current_orn = p.getBasePositionAndOrientation(robot.robot_id)
+            p.resetBasePositionAndOrientation(robot.robot_id, target_position, current_orn)
+            
+        print(f"Manually moved robot to {target_position}")
+        
+    def manual_move_object(self, world, object_id: str, target_position: List[float]) -> None:
+        """Manually move an object to a position"""
+        if not self.active_override:
+            print("Cannot move object: No active override")
+            return
+            
+        original_pos = world.get_object_position(object_id)
+        
+        command = {
+            "type": "manual_move_object",
+            "timestamp": time.time(),
+            "object_id": object_id,
+            "target_position": target_position,
+            "original_position": original_pos
+        }
+        self.manual_commands.append(command)
+        
+        # Force object to new position
+        success = world.set_object_position(object_id, target_position)
+        if success:
+            print(f"Manually moved {object_id} to {target_position}")
+        else:
+            print(f"Failed to move {object_id}")
+            
+    def force_skill_success(self, skill_name: str) -> None:
+        """Force a skill to succeed (skip execution)"""
+        if not self.active_override:
+            print("Cannot force skill: No active override")
+            return
+            
+        command = {
+            "type": "force_skill_success",
+            "timestamp": time.time(),
+            "skill_name": skill_name
+        }
+        self.manual_commands.append(command)
+        print(f"Forced skill success: {skill_name}")
+        
+    def force_skill_failure(self, skill_name: str, reason: str = "manual_failure") -> None:
+        """Force a skill to fail"""
+        if not self.active_override:
+            print("Cannot force skill failure: No active override")
+            return
+            
+        command = {
+            "type": "force_skill_failure",
+            "timestamp": time.time(),
+            "skill_name": skill_name,
+            "reason": reason
+        }
+        self.manual_commands.append(command)
+        print(f"Forced skill failure: {skill_name} - {reason}")
+        
+    def inject_grasp_success(self, robot, object_id: str) -> None:
+        """Manually create a successful grasp"""
+        if not self.active_override:
+            print("Cannot inject grasp: No active override")
+            return
+            
+        command = {
+            "type": "inject_grasp_success",
+            "timestamp": time.time(),
+            "object_id": object_id
+        }
+        self.manual_commands.append(command)
+        
+        # Force grasp in robot
+        robot.held_objects[object_id] = len(robot.held_objects)
+        print(f"Manually created grasp for {object_id}")
+        
+    def inject_grasp_failure(self, robot, object_id: str) -> None:
+        """Manually force grasp failure"""
+        if not self.active_override:
+            print("Cannot inject grasp failure: No active override")
+            return
+            
+        command = {
+            "type": "inject_grasp_failure",
+            "timestamp": time.time(),
+            "object_id": object_id
+        }
+        self.manual_commands.append(command)
+        
+        # Remove grasp if it exists
+        if object_id in robot.held_objects:
+            del robot.held_objects[object_id]
+            
+        print(f"Manually forced grasp failure for {object_id}")
+        
+    def collect_correction_data(self, skill_name: str, failure_type: str, 
+                              correction_action: str, parameters: Dict = None) -> None:
+        """Collect data for skill correction/retraining"""
+        correction_data = {
+            "type": "correction_data",
+            "timestamp": time.time(),
+            "skill_name": skill_name,
+            "failure_type": failure_type,
+            "correction_action": correction_action,
+            "parameters": parameters or {}
+        }
+        self.manual_commands.append(correction_data)
+        print(f"Collected correction data for {skill_name}: {failure_type} -> {correction_action}")
+        
+    def simulate_human_intervention(self, intervention_type: str, duration: float = 2.0) -> None:
+        """Simulate human intervention during task execution"""
+        if not self.active_override:
+            self.start_override(f"human_intervention_{intervention_type}")
+            
+        intervention = {
+            "type": "human_intervention",
+            "timestamp": time.time(),
+            "intervention_type": intervention_type,
+            "duration": duration
+        }
+        self.manual_commands.append(intervention)
+        
+        # Simulate intervention delay
+        time.sleep(duration)
+        print(f"Simulated human intervention: {intervention_type} (duration: {duration}s)")
+        
+    def register_callback(self, event_type: str, callback: Callable) -> None:
+        """Register a callback for specific override events"""
+        self.callbacks[event_type] = callback
+        
+    def trigger_callback(self, event_type: str, *args, **kwargs) -> None:
+        """Trigger a registered callback"""
+        if event_type in self.callbacks:
+            self.callbacks[event_type](*args, **kwargs)
+            
+    def get_override_summary(self) -> Dict:
+        """Get summary of all override activities"""
+        total_overrides = len([log for log in self.override_log if log["type"] == "override_start"])
+        total_commands = len(self.manual_commands)
+        
+        command_types = {}
+        for cmd in self.manual_commands:
+            cmd_type = cmd["type"]
+            command_types[cmd_type] = command_types.get(cmd_type, 0) + 1
+            
+        return {
+            "total_overrides": total_overrides,
+            "total_commands": total_commands,
+            "command_breakdown": command_types,
+            "currently_active": self.active_override
+        }
+        
+    def export_teleop_data(self, filename: str) -> None:
+        """Export all teleop data to a JSON file for analysis"""
+        data = {
+            "override_log": self.override_log,
+            "manual_commands": self.manual_commands,
+            "summary": self.get_override_summary(),
+            "export_timestamp": time.time()
+        }
+        
+        with open(filename, 'w') as f:
+            json.dump(data, f, indent=2)
+            
+        print(f"Teleop data exported to {filename}")
+        
+    def clear_logs(self) -> None:
+        """Clear all logged data"""
+        self.override_log.clear()
+        self.manual_commands.clear()
+        print("Teleop logs cleared")
+        
+    def suggest_dataset_corrections(self) -> List[Dict]:
+        """Analyze override data and suggest dataset corrections for retraining"""
+        suggestions = []
+        
+        # Analyze failure patterns
+        failure_types = {}
+        for cmd in self.manual_commands:
+            if cmd["type"] == "force_skill_failure":
+                skill = cmd["skill_name"]
+                reason = cmd.get("reason", "unknown")
+                key = f"{skill}_{reason}"
+                failure_types[key] = failure_types.get(key, 0) + 1
+                
+        # Suggest corrections based on patterns
+        for failure_pattern, count in failure_types.items():
+            if count > 1:  # Multiple occurrences suggest systematic issue
+                skill, reason = failure_pattern.rsplit('_', 1)
+                suggestion = {
+                    "type": "dataset_correction",
+                    "skill": skill,
+                    "issue": reason,
+                    "frequency": count,
+                    "suggested_action": f"Collect more training data for {skill} with {reason} scenarios"
+                }
+                suggestions.append(suggestion)
+                
+        return suggestions

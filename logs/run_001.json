@@ -1,0 +1,69 @@
+{
+  "run_id": "run_20250802_143022", 
+  "start_time": "2025-08-02T14:30:22.123456",
+  "end_time": "2025-08-02T14:30:28.456789",
+  "workflow": "fetch-and-place",
+  "steps": [
+    {
+      "timestamp": "2025-08-02T14:30:22.234567",
+      "skill": "WalkToTarget",
+      "status": "SUCCESS",
+      "duration": 2.1,
+      "target": [1.5, 0.8, 0.0],
+      "final_position": [1.52, 0.79, 0.5]
+    },
+    {
+      "timestamp": "2025-08-02T14:30:24.345678", 
+      "skill": "PickObject",
+      "status": "FAILURE",
+      "duration": 1.8,
+      "error": "IK_FAIL",
+      "object_id": "box_01",
+      "ik_success": false,
+      "grasp_success": false
+    },
+    {
+      "timestamp": "2025-08-02T14:30:26.123456",
+      "skill": "FallbackPick", 
+      "status": "SUCCESS",
+      "duration": 1.2,
+      "object_id": "box_01",
+      "ik_success": true,
+      "grasp_success": true,
+      "note": "Recovery attempt successful"
+    },
+    {
+      "timestamp": "2025-08-02T14:30:27.234567",
+      "skill": "WalkToTarget",
+      "status": "SUCCESS", 
+      "duration": 0.9,
+      "target": [2.5, 1.0, 0.0],
+      "final_position": [2.48, 1.01, 0.5]
+    },
+    {
+      "timestamp": "2025-08-02T14:30:28.123456",
+      "skill": "PlaceObject",
+      "status": "SUCCESS",
+      "duration": 0.4,
+      "location": [2.5, 1.0, 0.1],
+      "object_id": "box_01",
+      "placement_success": true
+    }
+  ],
+  "total_duration": 6.4,
+  "failures": 1,
+  "recovery_steps": 1,
+  "teleop_interventions": 0,
+  "final_status": "SUCCESS",
+  "summary": {
+    "total_steps": 5,
+    "successful_steps": 4,
+    "success_rate": 0.8,
+    "avg_step_duration": 1.28
+  },
+  "config": {
+    "noise_level": 0.01,
+    "use_gui": true,
+    "timeout": 30.0
+  }
+}

@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install Dependencies and Run Simulation",
+			"type": "shell",
+			"command": "pip install -r requirements.txt && python run_sim.py --workflow simple_walk --no-gui --export-logs",
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
