@@ -14,12 +14,12 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="humanoid-skill-sim",
     version="0.1.0",
-    author="Humanoid Robotics Team",
-    author_email="team@humanoid-robotics.com",
-    description="A comprehensive simulation environment for humanoid robot skill development",
+    author="Philip Wellener",
+    author_email="philip@example.com",
+    description="A Python project exploring humanoid robotics with behavior trees and skill development",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/your-org/humanoid-skill-sim",
+    url="https://github.com/philipwellener/humanoid-skill-sim",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
